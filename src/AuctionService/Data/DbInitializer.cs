@@ -5,16 +5,13 @@ namespace AuctionService.Data
 {
   public class DbInitializer
   {
-    public static void InitDb(WebApplication app)
+    public static async Task InitDb(WebApplication app)
     {
       using var scope = app.Services.CreateScope();
 
-      SeedData(scope.ServiceProvider.GetService<AuctionDbContext>());
-    }
+      var context = scope.ServiceProvider.GetService<AuctionDbContext>();
 
-    private static void SeedData(AuctionDbContext context)
-    {
-      context.Database.Migrate();
+      await context.Database.MigrateAsync();
 
       if (context.Auctions.Any())
       {
