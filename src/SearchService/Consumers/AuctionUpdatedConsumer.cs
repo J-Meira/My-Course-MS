@@ -4,32 +4,30 @@ using MassTransit;
 using MongoDB.Entities;
 using SearchService.Models;
 
-namespace SearchService.Consumers
+namespace SearchService.Consumers;
+public class AuctionUpdatedConsumer(IMapper mapper) : IConsumer<AuctionUpdated>
 {
-  public class AuctionUpdatedConsumer(IMapper mapper) : IConsumer<AuctionUpdated>
+  private readonly IMapper _mapper = mapper;
+
+  public async Task Consume(ConsumeContext<AuctionUpdated> context)
   {
-    private readonly IMapper _mapper = mapper;
+    Console.WriteLine("--> Consuming auction updated: " + context.Message.Id);
 
-    public async Task Consume(ConsumeContext<AuctionUpdated> context)
-    {
-      Console.WriteLine("--> Consuming auction updated: " + context.Message.Id);
+    var item = _mapper.Map<Item>(context.Message);
 
-      var item = _mapper.Map<Item>(context.Message);
+    var result = await DB.Update<Item>()
+      .MatchID(item.ID)
+      .ModifyOnly(i => new
+      {
+        i.Make,
+        i.Model,
+        i.Year,
+        i.Color,
+        i.Mileage,
+      }, item)
+      .ExecuteAsync();
 
-      var result = await DB.Update<Item>()
-        .MatchID(item.ID)
-        .ModifyOnly(i => new
-        {
-          i.Make,
-          i.Model,
-          i.Year,
-          i.Color,
-          i.Mileage,
-        }, item)
-        .ExecuteAsync();
-
-      if (!result.IsAcknowledged)
-        throw new MessageException(typeof(AuctionUpdated), "Problem updating mongodb");
-    }
+    if (!result.IsAcknowledged)
+      throw new MessageException(typeof(AuctionUpdated), "Problem updating mongodb");
   }
 }

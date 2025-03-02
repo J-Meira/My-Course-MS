@@ -88,6 +88,7 @@ namespace AuctionService.Controllers
       auction.Item.Color = updateAuctionDto.Color ?? auction.Item.Color;
       auction.Item.Mileage = updateAuctionDto.Mileage ?? auction.Item.Mileage;
       auction.Item.Year = updateAuctionDto.Year ?? auction.Item.Year;
+      auction.UpdatedAt = DateTime.UtcNow;
 
       await _publishEndpoint.Publish(_mapper.Map<AuctionUpdated>(auction));
 
