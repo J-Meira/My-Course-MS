@@ -12,6 +12,7 @@ services:
       - /var/lib/postresql/data
   mongodb:
     image: mongo
+    restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=mongo
@@ -21,6 +22,7 @@ services:
       - /var/lib/mongodb/data
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    restart: always
     ports:
       - 5672:5672
       - 15672:15672
