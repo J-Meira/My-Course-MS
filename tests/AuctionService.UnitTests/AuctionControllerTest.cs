@@ -8,7 +8,6 @@ using AutoFixture;
 using AutoMapper;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -16,17 +15,13 @@ namespace AuctionService.UnitTests;
 public class AuctionControllerTest
 {
   private readonly AuctionsController _controller;
-  private readonly Fixture _fixture;
+  private readonly Fixture _fixture = new();
   private readonly IMapper _mapper;
-  private readonly Mock<IAuctionRepository> _repository;
-  private readonly Mock<IPublishEndpoint> _publishEndpoint;
+  private readonly Mock<IAuctionRepository> _repository = new();
+  private readonly Mock<IPublishEndpoint> _publishEndpoint = new();
 
   public AuctionControllerTest()
   {
-    _fixture = new Fixture();
-    _repository = new Mock<IAuctionRepository>();
-    _publishEndpoint = new Mock<IPublishEndpoint>();
-
     var mockMapper = new MapperConfiguration(cfg =>
     {
       cfg.AddMaps(typeof(MappingProfiles).Assembly);
