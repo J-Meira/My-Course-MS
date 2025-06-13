@@ -56,11 +56,17 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_URLS=http://+:7777
       - RabbitMq__Host=rabbitmq
       - ConnectionStrings__Default=Server=postgres:5432;User Id=postgres;Password=postgres;Database=auctions
       - IdentityServerURL=http://identity-svc
+      - Kestrel__Endpoints__Grpc__Protocols=Http2
+      - Kestrel__Endpoints__Grpc__Url=http://+:7777
+      - Kestrel__Endpoints__WebApi__Protocols=Http1
+      - Kestrel__Endpoints__WebApi__Url=Http://+:80
     ports:
       - 7001:80
+      - 7777:7777
     depends_on:
       postgres:
         condition: service_healthy
@@ -84,6 +90,25 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+  bid-svc:
+    image: jmeiradev/bid-svc:latest
+    build:
+      context: .
+      dockerfile: src/BiddingService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMq__Host=rabbitmq
+      - ConnectionStrings__Default=mongodb://root:mongo@mongodb
+      - IdentityServerURL=http://identity-svc
+      - GrpcAuction=http://auction-svc:7777
+    ports:
+      - 7003:80
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
   identity-svc:
     image: jmeiradev/identity-svc:latest
     build:
@@ -97,7 +122,7 @@ services:
       - 5001:80
     depends_on:
       postgres:
-        condition: service_healthy
+        condition: service_healthy 
   gateway-svc:
     image: jmeiradev/gateway-svc:latest
     build:

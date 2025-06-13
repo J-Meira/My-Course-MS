@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionService.UnitTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionService.IntegrationTests", "tests\AuctionService.IntegrationTests\AuctionService.IntegrationTests.csproj", "{C0455C63-30F9-4598-B2B6-1E42E025ADF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiddingService", "src\BiddingService\BiddingService.csproj", "{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,18 @@ Global
 		{C0455C63-30F9-4598-B2B6-1E42E025ADF4}.Release|x64.Build.0 = Release|Any CPU
 		{C0455C63-30F9-4598-B2B6-1E42E025ADF4}.Release|x86.ActiveCfg = Release|Any CPU
 		{C0455C63-30F9-4598-B2B6-1E42E025ADF4}.Release|x86.Build.0 = Release|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Debug|x64.Build.0 = Debug|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Debug|x86.Build.0 = Debug|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Release|x64.ActiveCfg = Release|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Release|x64.Build.0 = Release|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Release|x86.ActiveCfg = Release|Any CPU
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,5 +141,6 @@ Global
 		{D276B040-919E-43C7-BE9C-01A1B13CD684} = {B0988FC9-67A9-4BF7-AB98-E8FEE2B90ADA}
 		{043C22AA-8ABF-4004-AB87-D9D42A821018} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{C0455C63-30F9-4598-B2B6-1E42E025ADF4} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{9A37133E-6B30-498B-AB19-D6A7E6FE2BB9} = {B0988FC9-67A9-4BF7-AB98-E8FEE2B90ADA}
 	EndGlobalSection
 EndGlobal
