@@ -21,6 +21,5 @@ public class AuctionCreatedConsumer : IConsumer<AuctionCreated>
 
     await auction.SaveAsync();
 
-    // return Task.CompletedTask;
   }
 }
