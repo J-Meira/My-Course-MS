@@ -1,11 +1,16 @@
 import { Heading } from "@/components";
-import { getAuctionById, getCurrentUser } from "@/services";
-
-import { DeleteButton, SpecsTable, UpdateButton } from "./components";
+import { BidList, DeleteButton, SpecsTable, UpdateButton } from "./components";
 import { CarImage, CountdownTimer } from "../../components";
 
-export const Details = async ({ params }: { params: { id: string } }) => {
-  const data = await getAuctionById(params.id);
+import { getAuctionById, getCurrentUser } from "@/services";
+
+export const Details = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  const data = await getAuctionById(id);
   const user = await getCurrentUser();
 
   return (
@@ -32,9 +37,7 @@ export const Details = async ({ params }: { params: { id: string } }) => {
           <CarImage imageUrl={data.imageUrl} />
         </div>
 
-        <div className="border-2 rounded-lg p-2 bg-gray-100">
-          <Heading title="Bids" />
-        </div>
+        <BidList user={user} auction={data} />
       </div>
 
       <div className="mt-3 grid grid-cols-1 rounded-lg">

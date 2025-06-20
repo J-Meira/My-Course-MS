@@ -6,13 +6,13 @@ import qs from "query-string";
 
 import { getAuctionsList } from "@/services";
 import { DefaultsDisplay, AppPagination } from "@/components";
-import { useParamsStore } from "@/hooks";
-import { Auction, PagedResult } from "@/types";
+import { useAuctionStore, useParamsStore } from "@/hooks";
 
 import { AuctionCard, Filters } from ".";
 
 export const AuctionsList = () => {
-  const [data, setData] = useState<PagedResult<Auction>>();
+  const [loading, setLoading] = useState(false);
+  const { auctions, totalCount, pageCount, setData } = useAuctionStore();
   const {
     pageNumber,
     pageSize,
@@ -42,22 +42,24 @@ export const AuctionsList = () => {
   }
 
   useEffect(() => {
+    setLoading(true);
     getAuctionsList(url).then((data) => {
+      setLoading(false);
       setData(data);
     });
   }, [url]);
 
-  if (!data) return <h3>Loading...</h3>;
+  if (loading) return <h3>Loading...</h3>;
 
   return (
     <>
       <Filters />
-      {data.totalCount === 0 ? (
+      {totalCount === 0 ? (
         <DefaultsDisplay showReset />
       ) : (
         <>
           <div className="grid grid-cols-4 gap-6">
-            {data.results.map((auction) => (
+            {auctions.map((auction) => (
               <AuctionCard auction={auction} key={auction.id} />
             ))}
           </div>
@@ -65,7 +67,7 @@ export const AuctionsList = () => {
             <AppPagination
               pageChanged={setPageNumber}
               currentPage={pageNumber}
-              pageCount={data.pageCount}
+              pageCount={pageCount}
             />
           </div>
         </>

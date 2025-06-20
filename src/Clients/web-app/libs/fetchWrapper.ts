@@ -54,18 +54,22 @@ const getHeaders = async () => {
 
 const handleResponse = async (response: Response) => {
   const text = await response.text();
-  const data = text && JSON.parse(text);
+  let data;
+
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = text;
+  }
 
   if (response.ok) {
     return data || response.statusText;
-  } else {
-    const error = {
-      status: response.status,
-      message: response.statusText,
-    };
-    console.error(error);
-    return { error };
   }
+  const error = {
+    status: response.status,
+    message: typeof data === "string" ? data : response.statusText,
+  };
+  return { error };
 };
 
 export const fetchWrapper = {

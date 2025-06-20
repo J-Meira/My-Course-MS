@@ -1,10 +1,11 @@
 "use client";
 
-import { deleteAuction } from "@/services";
 import { Button, Spinner } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+
+import { deleteAuction } from "@/services";
 
 type Props = {
   id: string;

@@ -3,8 +3,13 @@ import { getAuctionById } from "@/services";
 
 import { AuctionForm } from "../../components";
 
-export const Update = async ({ params }: { params: { id: string } }) => {
-  const data = await getAuctionById(params.id);
+export const Update = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  const data = await getAuctionById(id);
 
   return (
     <div className="mx-auto max-w-[75%] shadow-lg p-10 bg-white rounded-lg">
