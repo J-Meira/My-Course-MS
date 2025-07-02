@@ -4,13 +4,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { FaSearch } from "react-icons/fa";
 
 import { useParamsStore } from "@/hooks";
+import { ChangeEvent } from "react";
 
 export const Search = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { searchValue, setParams, setSearchValue } = useParamsStore();
 
-  function onChange(event: any) {
+  function onChange(event: ChangeEvent<HTMLInputElement>) {
     setSearchValue(event.target.value);
   }
 
@@ -22,7 +23,7 @@ export const Search = () => {
   return (
     <div className="flex w-[50%] items-center border-2 rounded-full py-2 shadow-sm">
       <input
-        onKeyDown={(e: any) => {
+        onKeyDown={(e) => {
           if (e.key === "Enter") search();
         }}
         value={searchValue}

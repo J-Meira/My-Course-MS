@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "next-auth";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { ReactNode, useRef, useEffect, useCallback } from "react";
@@ -11,13 +10,14 @@ import { Auction, AuctionFinished, Bid } from "@/types";
 
 import { AuctionCreatedToast, AuctionFinishedToast } from "@/components";
 import { getAuctionById } from "@/services";
+import { useSession } from "next-auth/react";
 
 type Props = {
   children: ReactNode;
-  user: User | null;
 };
 
-export const SignalRProvider = ({ children, user }: Props) => {
+export const SignalRProvider = ({ children }: Props) => {
+  const session = useSession();
   const connection = useRef<HubConnection | null>(null);
   const { setCurrentPrice } = useAuctionStore();
   const { addBid } = useBidStore();
@@ -46,13 +46,14 @@ export const SignalRProvider = ({ children, user }: Props) => {
 
   const handleAuctionCreated = useCallback(
     (auction: Auction) => {
+      const user = session.data?.user;
       if (user?.username !== auction.seller) {
         return toast(<AuctionCreatedToast auction={auction} />, {
           duration: 10000,
         });
       }
     },
-    [user]
+    [session]
   );
 
   const handleBidPlaced = useCallback(
@@ -71,7 +72,7 @@ export const SignalRProvider = ({ children, user }: Props) => {
   useEffect(() => {
     if (!connection.current) {
       connection.current = new HubConnectionBuilder()
-        .withUrl("http://localhost:6001/notifications")
+        .withUrl(process.env.NEXT_PUBLIC_NOTIFY_URL as string)
         .withAutomaticReconnect()
         .build();
 

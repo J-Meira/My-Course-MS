@@ -147,6 +147,21 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+  web-app:
+    image: jmeiradev/web-app:latest
+    build:
+      context: .
+      dockerfile: src/Clients/web-app/Dockerfile
+    volumes:
+      - /var/lib/web/data
+    ports:
+      - 3000:3000
+    environment:
+      - AUTH_SECRET="fKnHfl6+uO0rNHTAuiIcJc8q0nmzHLq4WFf1BsE8VPA="
+      - AUTH_URL=http://localhost:3000
+      - AUTH_URL_INTERNAL=http://web-app:3000
+      - API_URL=http://gateway-svc
+      - ID_URL=http://identity-svc
 volumes:
   pg_data:
   mongo_data:

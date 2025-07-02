@@ -37,23 +37,18 @@ export const AuctionForm = ({ auction }: Props) => {
 
   async function onSubmit(data: FieldValues) {
     try {
-      let id = "";
-      let res;
-      if (pathname === "/auctions/create") {
-        res = await createAuction(data);
-        id = res.id;
-      } else {
-        if (auction) {
-          res = await updateAuction(data, auction.id);
-          id = auction.id;
-        }
+      const res = auction
+        ? await updateAuction(data, auction.id)
+        : await createAuction(data);
+
+      if (typeof res !== "string" && typeof res !== "boolean") {
+        return toast.error(`${res.error.status} ${res.error.message}`);
       }
-      if (res.error) {
-        throw res.error;
-      }
-      router.push(`/auctions/details/${id}`);
-    } catch (error: any) {
-      toast.error(error.status + " " + error.message);
+
+      const id = typeof res === "string" ? res : auction?.id;
+      router.push(id ? `/auctions/details/${id}` : "/");
+    } catch {
+      toast.error("Auction could not be saved.");
     }
   }
 

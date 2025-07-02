@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { FieldValues } from "react-hook-form";
 
 import { fetchWrapper } from "@/libs";
-import { Auction, Bid, PagedResult } from "@/types";
+import { Auction, Bid, PagedResult, ServiceError } from "@/types";
 
 export const getAuctionsList = async (
   query: string
@@ -12,7 +12,7 @@ export const getAuctionsList = async (
   return await fetchWrapper.get(`search/${query}`);
 };
 
-export const updateAuctionTest = async () => {
+export const updateAuctionTest = async (): Promise<string | ServiceError> => {
   const data = {
     mileage: Math.floor(Math.random() * 100000) + 1,
   };
@@ -23,25 +23,33 @@ export const updateAuctionTest = async () => {
   );
 };
 
-export const createAuction = async (data: FieldValues) => {
-  return await fetchWrapper.post("auctions", data);
+export const createAuction = async (
+  data: FieldValues
+): Promise<string | ServiceError> => {
+  const res = await fetchWrapper.post("auctions", data);
+  return res.error ? res : res.id;
 };
 
 export const getAuctionById = async (id: string): Promise<Auction> => {
   return await fetchWrapper.get(`auctions/${id}`);
 };
 
-export const updateAuction = async (data: FieldValues, id: string) => {
-  const res = await fetchWrapper.put(`auctions/${id}`, data);
+export const updateAuction = async (
+  data: FieldValues,
+  id: string
+): Promise<boolean | ServiceError> => {
+  await fetchWrapper.put(`auctions/${id}`, data);
   revalidatePath(`/auctions/${id}`);
-  return res;
+  return true;
 };
 
 export const deleteAuction = async (id: string) => {
   return await fetchWrapper.del(`auctions/${id}`);
 };
 
-export async function getBidsForAuction(id: string): Promise<Bid[]> {
+export async function getBidsForAuction(
+  id: string
+): Promise<Bid[] | ServiceError> {
   return fetchWrapper.get(`bids/${id}`);
 }
 

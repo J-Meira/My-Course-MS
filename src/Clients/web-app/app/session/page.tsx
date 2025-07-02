@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { AuthTest, Heading } from "@/components";
 
-export const Session = async () => {
+export default async function Session() {
   const session = await auth();
 
   return (
@@ -18,6 +18,4 @@ export const Session = async () => {
       </div>
     </div>
   );
-};
-
-export default Session;
+}

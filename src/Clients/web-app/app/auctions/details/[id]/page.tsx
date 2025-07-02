@@ -4,11 +4,11 @@ import { CarImage, CountdownTimer } from "../../components";
 
 import { getAuctionById, getCurrentUser } from "@/services";
 
-export const Details = async ({
+export default async function Details({
   params,
 }: {
   params: Promise<{ id: string }>;
-}) => {
+}) {
   const { id } = await params;
   const data = await getAuctionById(id);
   const user = await getCurrentUser();
@@ -45,6 +45,4 @@ export const Details = async ({
       </div>
     </div>
   );
-};
-
-export default Details;
+}

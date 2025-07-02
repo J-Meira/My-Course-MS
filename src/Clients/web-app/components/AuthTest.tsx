@@ -6,13 +6,17 @@ import { updateAuctionTest } from "@/services";
 
 export const AuthTest = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<any>();
+  const [result, setResult] = useState<{ status: number; message: string }>();
 
   function doUpdate() {
     setResult(undefined);
     setIsLoading(true);
     updateAuctionTest()
-      .then((res) => setResult(res))
+      .then((res) => {
+        setResult(
+          typeof res === "string" ? { status: 200, message: res } : res.error
+        );
+      })
       .finally(() => setIsLoading(false));
   }
 

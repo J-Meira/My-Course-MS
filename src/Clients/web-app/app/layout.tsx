@@ -1,9 +1,9 @@
 import { Navbar } from "@/components";
 
 import { SignalRProvider, ToasterProvider } from "@/providers";
-import { getCurrentUser } from "@/services";
 
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata = {
   title: "Live Auctions",
@@ -15,15 +15,16 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getCurrentUser();
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        <main className="container mx-auto px-5 pt-10">
-          <SignalRProvider user={user}>{children}</SignalRProvider>
-        </main>
-        <ToasterProvider />
+        <SessionProvider>
+          <Navbar />
+          <main className="container mx-auto px-5 pt-10">
+            <SignalRProvider>{children}</SignalRProvider>
+          </main>
+          <ToasterProvider />
+        </SessionProvider>
       </body>
     </html>
   );

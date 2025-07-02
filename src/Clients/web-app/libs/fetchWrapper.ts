@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 
-const baseUrl = "http://localhost:6001/";
+const baseUrl = process.env.API_URL;
 
 const get = async (url: string) => {
   const requestOptions = {
@@ -45,7 +45,7 @@ const del = async (url: string) => {
 
 const getHeaders = async () => {
   const session = await auth();
-  const headers = { "Content-type": "application/json" } as any;
+  const headers: Record<string, string> = { "Content-type": "application/json" };
   if (session) {
     headers.Authorization = `Bearer ${session.accessToken}`;
   }

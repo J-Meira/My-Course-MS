@@ -1,20 +1,20 @@
 import { DefaultsDisplay } from "@/components";
 
 type Props = {
-  searchParams: {
+  searchParams: Promise<{
     callbackUrl: string;
-  };
+  }>;
 };
 
-export const SignIn = ({ searchParams }: Props) => {
+export default async function SignIn({ searchParams }: Props) {
+  const { callbackUrl } = await searchParams;
+
   return (
     <DefaultsDisplay
-      callbackUrl={searchParams.callbackUrl}
+      callbackUrl={callbackUrl}
       showLogin
       subtitle="Please click below to login"
       title="You need to be logged in to view this page"
     />
   );
-};
-
-export default SignIn;
+}

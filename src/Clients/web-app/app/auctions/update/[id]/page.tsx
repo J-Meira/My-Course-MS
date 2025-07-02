@@ -3,11 +3,11 @@ import { getAuctionById } from "@/services";
 
 import { AuctionForm } from "../../components";
 
-export const Update = async ({
+export default async function Update({
   params,
 }: {
   params: Promise<{ id: string }>;
-}) => {
+}) {
   const { id } = await params;
   const data = await getAuctionById(id);
 
@@ -20,6 +20,4 @@ export const Update = async ({
       <AuctionForm auction={data} />
     </div>
   );
-};
-
-export default Update;
+}

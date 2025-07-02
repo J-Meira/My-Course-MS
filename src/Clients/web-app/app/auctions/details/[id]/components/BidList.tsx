@@ -9,7 +9,7 @@ import { DefaultsDisplay, Heading } from "@/components";
 import { useBidStore } from "@/hooks";
 import { numberWithCommas } from "@/libs";
 import { getBidsForAuction } from "@/services";
-import { Auction, Bid } from "@/types";
+import { Auction } from "@/types";
 
 import { BidItem, BidForm } from ".";
 
@@ -40,11 +40,11 @@ export const BidList = ({ user, auction }: Props) => {
   useEffect(() => {
     setLoading(true);
     getBidsForAuction(auction.id)
-      .then((res: any) => {
-        if (res.error) {
+      .then((res) => {
+        if (!Array.isArray(res)) {
           throw res.error;
         }
-        setBids(res as Bid[]);
+        setBids(res);
       })
       .catch((error) => {
         toast.error(error.message);
